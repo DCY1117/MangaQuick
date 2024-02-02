@@ -1,0 +1,2 @@
+# MangaQuick
+Automatic Manga Translator
