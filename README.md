@@ -64,6 +64,6 @@ MangaQuick is made available under the [MIT License](LICENSE). For more details,
 If you encounter any issues or have suggestions for improvements, please file an issue on our [GitHub issue tracker](https://github.com/yourusername/MangaQuick/issues).
 
 ## Acknowledgments
-
-Special thanks to all contributors and supporters of MangaQuick for making this project possible.
+- Manga Text Segmenation: https://github.com/juvian/Manga-Text-Segmentation
+- Manga inpainting: https://github.com/advimman/lama
 
