@@ -77,7 +77,7 @@ To start using MangaQuick, follow these steps:
 
 1. Launch the application:
     ```bash
-    streamlit mangaquick.py
+    streamlit MangaQuick.py
     ```
 
 2. Follow the on-screen instructions to upload your manga file.
