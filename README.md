@@ -8,7 +8,7 @@ MangaQuick is a Streamlit-powered web application, designed to facilitate the au
 
 ### Prerequisites
 
-It's highly recommended to use a virtual environment for managing dependencies and isolating the project. `conda` is a great tool for this purpose:
+It's highly recommended to use a virtual environment for managing dependencies and isolating the project, `conda` is a great tool for this purpose:
 
 Create a new conda environment named 'MangaQuick' with Python 3.11
 ```bash
