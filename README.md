@@ -42,7 +42,18 @@ You can find the appropriate installation commands on:
 
 [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/)
 
+This application has been tested on an RTX 3080 GPU, which has 10GB of VRAM. It's important to note that the application nearly utilizes the full capacity of the 10GB VRAM. Therefore, to ensure smooth operation, a GPU with at least 10GB of VRAM is recommended.
+
+### 
+While the models employed in this application are notably swift, the response time is predominantly influenced by the DeepL API's speed, especially when processing a large amount of text blocks. On average, generating an image takes about 20 to 30 seconds, largely dependent on the quantity of text blocks involved.
+
+You can still use only CPU, additionaly you can choose the models that use CPU and GPU in the web application. The model that consumes the most is the Text Segmentation model.
+
 This will set up MangaQuick on your system, ready for use with or without GPU support, depending on your setup.
+
+### Text segmentation model and LaMa model
+
+
 
 ## Usage
 
