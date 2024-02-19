@@ -79,12 +79,38 @@ To start using MangaQuick, follow these steps:
     ```bash
     streamlit MangaQuick.py
     ```
+    
+Upon launching, you will see the MangaQuick web interface in your browser:
 
-2. Follow the on-screen instructions to upload your manga file.
+![Streamlit page](components/webpage_assets/streamlit_page.png)
+<sup>(source: [manga109](http://www.manga109.org/en/), © Yagami Ken)</sup>
 
-3. Select the target language for the translation.
+### Main Features
 
-4. MangaQuick will process and display the translated manga upon completion.
+-  **Text segmentation**:  Select the preferred model and the processing unit, either GPU ("cuda") or CPU ("cpu"), to fit your hardware capabilities.
+-  **Text block detection**: options for mask dilation and the removal of unnecessary text blocks, particularly useful for reducing false positives.
+-  **OCR**: Select either GPU ("cuda") or CPU ("cpu").
+-  **Translation**: Enter your DeepL API key and select the desired target language to translate the manga into your preferred language.
+-  **Inpainting**: select either GPU ("cuda") or CPU ("cpu").
+-  **Text injection**:  Choose the appropriate font size and style. Note you need to match the font style with the target language for a coherent look.
+
+### DeepL
+
+To store your DeepL key, create a .env file and include the following line:
+```
+DEEPL_KEY=<your_deepl_key>
+```
+
+### Modifying Detection Boxes
+
+- Activate the `Modify text boxes` option to enable editing.
+- Within the user interface, adjusting detection boxes is straightforward: simply double-click on any box you wish to exclude. This feature is particularly useful for eliminating unnecessary or incorrect detections.
+- The functionality is focused solely on the removal of boxes; additional modifications to the boxes are not supported.
+
+![Streamlit modify](components/webpage_assets/streamlit_modify.png)
+<sup>(source: [manga109](http://www.manga109.org/en/), © Yagami Ken)</sup>
+ 
+2. Once the images are processed, you can download the translated manga as a zip file, ready for reading in your chosen language.
 
 
 ## Acknowledgments
