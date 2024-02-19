@@ -2,22 +2,23 @@
 
 ## Description
 
-MangaQuick is an innovative tool designed to break down language barriers for manga enthusiasts worldwide. Leveraging advanced AI and machine learning technologies, MangaQuick automatically translates manga from its original language into a wide array of other languages, making manga more accessible and enjoyable for a global audience.
-
-### Features
-
-- **High-Quality Translations:** Utilizes state-of-the-art translation algorithms to ensure that the essence and humor of manga are preserved.
-- **Support for Multiple Languages:** Capable of translating manga into numerous languages, including but not limited to English, Spanish, French, and Chinese.
-- **User-Friendly Interface:** Designed with simplicity in mind, making it easy for users to upload and translate their favorite manga.
-- **Customization Options:** Allows users to customize the font style and size of the translated text to match the manga's original aesthetics.
+MangaQuick is a Streamlit-powered web application, designed to facilitate the automatic translation of manga. This tool is part of my Final Degree Project [Diseño y desarrollo de un traductor de comics](https://oa.upm.es/71255/) (UPM, Spanish). It offers a streamlined solution for translating manga pages, with support for both single-page and batch processing. The application integrates [Manga Text Segmentation](https://github.com/juvian/Manga-Text-Segmentation) for text segmentation and detection, [LaMa](https://github.com/advimman/lama) for image inpainting and [manga-ocr](https://github.com/kha-white/manga-ocr) for optical character recognition.
 
 ## Installation
 
 ### Prerequisites
 
-Before installing MangaQuick, ensure you have the following installed:
-- Python 3.8 or later
-- Pip (Python Package Installer)
+It's highly recommended to use a virtual environment for managing dependencies and isolating the project, `conda` is a great tool for this purpose:
+
+Create a new conda environment named 'MangaQuick' with Python 3.11
+```bash
+conda create --name MangaQuick python=3.11
+```
+
+Activate the 'MangaQuick' environment
+```bash
+conda activate MangaQuick
+```
 
 ### Step-by-Step Installation
 
@@ -35,6 +36,36 @@ Before installing MangaQuick, ensure you have the following installed:
     ```bash
     pip install -r requirements.txt
     ```
+### GPU Support
+To utilize GPU, ensure you install the correct version of PyTorch that matches your system and CUDA setup.
+You can find the appropriate installation commands on:
+
+[https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/)
+
+This application has been tested on an RTX 3080 GPU, which has 10GB of VRAM. It's important to note that the application nearly utilizes the full capacity of the 10GB VRAM. Therefore, to ensure smooth operation, a GPU with at least 10GB of VRAM is recommended.
+
+The application supports CPU usage as well, with options to select either CPU or GPU for each different model within the web interface. The Text Segmentation model is the most resource-intensive component.
+
+### Text segmentation model
+
+To download the Text Segmentation model, visit the [GitHub repository](https://github.com/juvian/Manga-Text-Segmentation). The repository offers 5 model variants; you may download one or all to switch between them in the web application.
+
+Create a models folder inside components/text_detection and place the downloaded .pkl model file(s) inside it following this directory structure:
+```
+components/text_detection/models/fold.0.-.final.refined.model.2.pkl
+```
+
+### LaMa model
+
+Download the LaMa inpainting model from its [GitHub page](https://github.com/advimman/lama/tree/main) using the following commands:
+
+```bash
+curl -LJO https://huggingface.co/smartywu/big-lama/resolve/main/big-lama.zip
+unzip big-lama.zip
+```
+
+Create a models folder inside components/image_inpainting and move the big-lama folder into it, resulting in the following path:
+components/image_inpainting/models/big-lama
 
 ## Usage
 
@@ -42,7 +73,7 @@ To start using MangaQuick, follow these steps:
 
 1. Launch the application:
     ```bash
-    python mangaquick.py
+    streamlit mangaquick.py
     ```
 
 2. Follow the on-screen instructions to upload your manga file.
@@ -51,19 +82,12 @@ To start using MangaQuick, follow these steps:
 
 4. MangaQuick will process and display the translated manga upon completion.
 
-## Contributing
-
-We welcome contributions from the community! If you're interested in helping MangaQuick grow and improve, please take a look at our [contributing guidelines](CONTRIBUTING.md) for more information on how to get started.
-
 ## License
 
 MangaQuick is made available under the [MIT License](LICENSE). For more details, see the LICENSE file in the repository.
 
-## Support
-
-If you encounter any issues or have suggestions for improvements, please file an issue on our [GitHub issue tracker](https://github.com/yourusername/MangaQuick/issues).
-
 ## Acknowledgments
-- Manga Text Segmenation: https://github.com/juvian/Manga-Text-Segmentation
-- Manga inpainting: https://github.com/advimman/lama
+- Manga Text Segmenation: [https://github.com/juvian/Manga-Text-Segmentation](https://github.com/juvian/Manga-Text-Segmentation)
+- Manga inpainting: [https://github.com/advimman/lama](https://github.com/advimman/lama)
+- Manga OCR: [https://github.com/kha-white/manga-ocr](https://github.com/kha-white/manga-ocr)
 
