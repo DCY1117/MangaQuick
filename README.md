@@ -86,9 +86,6 @@ To start using MangaQuick, follow these steps:
 
 4. MangaQuick will process and display the translated manga upon completion.
 
-## License
-
-MangaQuick is made available under the [MIT License](LICENSE). For more details, see the LICENSE file in the repository.
 
 ## Acknowledgments
 - Manga Text Segmenation: [https://github.com/juvian/Manga-Text-Segmentation](https://github.com/juvian/Manga-Text-Segmentation)
