@@ -1,4 +1,8 @@
-# MangaQuick: Automatic Manga Translator
+<p align="center">
+  <img src="components/webpage_assets/page_icon.webp" width="175" alt="MangaQuick: Automatic Manga Translator">
+</p>
+
+<h1 align="center" style="font-size: 36px; font-weight: bold; margin-bottom: 20px;">MangaQuick: Automatic Manga Translator</h1>
 
 ## Description
 
