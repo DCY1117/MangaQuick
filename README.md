@@ -2,22 +2,23 @@
 
 ## Description
 
-MangaQuick is an innovative tool designed to break down language barriers for manga enthusiasts worldwide. Leveraging advanced AI and machine learning technologies, MangaQuick automatically translates manga from its original language into a wide array of other languages, making manga more accessible and enjoyable for a global audience.
-
-### Features
-
-- **High-Quality Translations:** Utilizes state-of-the-art translation algorithms to ensure that the essence and humor of manga are preserved.
-- **Support for Multiple Languages:** Capable of translating manga into numerous languages, including but not limited to English, Spanish, French, and Chinese.
-- **User-Friendly Interface:** Designed with simplicity in mind, making it easy for users to upload and translate their favorite manga.
-- **Customization Options:** Allows users to customize the font style and size of the translated text to match the manga's original aesthetics.
+MangaQuick is a Streamlit-powered web application, designed to facilitate the automatic translation of manga. This tool is part of my Final Degree Project [Diseño y desarrollo de un traductor de comics](https://oa.upm.es/71255/) (UPM, Spanish). It offers a streamlined solution for translating manga pages, with support for both single-page and batch processing. The application integrates [Manga Text Segmentation](https://github.com/juvian/Manga-Text-Segmentation) for text segmentation and detection and [LaMa](https://github.com/advimman/lama) for image inpainting.
 
 ## Installation
 
 ### Prerequisites
 
-Before installing MangaQuick, ensure you have the following installed:
-- Python 3.8 or later
-- Pip (Python Package Installer)
+It's highly recommended to use a virtual environment for managing dependencies and isolating the project. `conda` is a great tool for this purpose:
+
+Create a new conda environment named 'MangaQuick' with Python 3.11
+```bash
+conda create --name MangaQuick python=3.11
+```
+
+Activate the 'MangaQuick' environment
+```bash
+conda activate MangaQuick
+```
 
 ### Step-by-Step Installation
 
@@ -35,6 +36,13 @@ Before installing MangaQuick, ensure you have the following installed:
     ```bash
     pip install -r requirements.txt
     ```
+### GPU Support
+To utilize GPU, ensure you install the correct version of PyTorch that matches your system and CUDA setup.
+You can find the appropriate installation commands on:
+
+[https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/)
+
+This will set up MangaQuick on your system, ready for use with or without GPU support, depending on your setup.
 
 ## Usage
 
@@ -51,19 +59,11 @@ To start using MangaQuick, follow these steps:
 
 4. MangaQuick will process and display the translated manga upon completion.
 
-## Contributing
-
-We welcome contributions from the community! If you're interested in helping MangaQuick grow and improve, please take a look at our [contributing guidelines](CONTRIBUTING.md) for more information on how to get started.
-
 ## License
 
 MangaQuick is made available under the [MIT License](LICENSE). For more details, see the LICENSE file in the repository.
 
-## Support
-
-If you encounter any issues or have suggestions for improvements, please file an issue on our [GitHub issue tracker](https://github.com/yourusername/MangaQuick/issues).
-
 ## Acknowledgments
-- Manga Text Segmenation: https://github.com/juvian/Manga-Text-Segmentation
-- Manga inpainting: https://github.com/advimman/lama
+- Manga Text Segmenation: [https://github.com/juvian/Manga-Text-Segmentation](https://github.com/juvian/Manga-Text-Segmentation)
+- Manga inpainting: [https://github.com/advimman/lama](https://github.com/advimman/lama)
 
