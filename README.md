@@ -109,8 +109,12 @@ DEEPL_KEY=<your_deepl_key>
 
 ![Streamlit modify](components/webpage_assets/streamlit_modify.png)
 <sup>(source: [manga109](http://www.manga109.org/en/), © Yagami Ken)</sup>
+
+2. All processing steps are executed simultaneously. Therefore, to adjust detection boxes or make any other changes, ensure you make these selections before initiating the process by clicking on the "Process Files" button.
+
+3. When multiple files are uploaded, they are processed collectively, not individually. This means that all images undergo each stage—starting with text segmentation, followed by text block detection, and so on—sequentially as a batch, rather than processing each image from start to finish before moving on to the next. This batch-processing approach means that you can adjust text boxes for all uploaded images simultaneously.
  
-2. Once the images are processed, you can download the translated manga as a zip file, ready for reading in your chosen language.
+4. Once the images are processed, you can download the translated manga as a zip file, ready for reading in your chosen language.
 
 
 ## Acknowledgments
