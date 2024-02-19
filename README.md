@@ -44,16 +44,28 @@ You can find the appropriate installation commands on:
 
 This application has been tested on an RTX 3080 GPU, which has 10GB of VRAM. It's important to note that the application nearly utilizes the full capacity of the 10GB VRAM. Therefore, to ensure smooth operation, a GPU with at least 10GB of VRAM is recommended.
 
-### 
-While the models employed in this application are notably swift, the response time is predominantly influenced by the DeepL API's speed, especially when processing a large amount of text blocks. On average, generating an image takes about 20 to 30 seconds, largely dependent on the quantity of text blocks involved.
+The application supports CPU usage as well, with options to select either CPU or GPU for each different model within the web interface. The Text Segmentation model is the most resource-intensive component.
 
-You can still use only CPU, additionaly you can choose the models that use CPU and GPU in the web application. The model that consumes the most is the Text Segmentation model.
+### Text segmentation model
 
-This will set up MangaQuick on your system, ready for use with or without GPU support, depending on your setup.
+To download the Text Segmentation model, visit the [GitHub repository](https://github.com/juvian/Manga-Text-Segmentation). The repository offers 5 model variants; you may download one or all to switch between them in the web application.
 
-### Text segmentation model and LaMa model
+Create a models folder inside components/text_detection and place the downloaded .pkl model file(s) inside it following this directory structure:
+```
+components/text_detection/models/fold.0.-.final.refined.model.2.pkl
+```
 
+### LaMa model
 
+Download the LaMa inpainting model from its [GitHub page](https://github.com/advimman/lama/tree/main) using the following commands:
+
+```bash
+curl -LJO https://huggingface.co/smartywu/big-lama/resolve/main/big-lama.zip
+unzip big-lama.zip
+```
+
+Create a models folder inside components/image_inpainting and move the big-lama folder into it, resulting in the following path:
+components/image_inpainting/models/big-lama
 
 ## Usage
 
@@ -61,7 +73,7 @@ To start using MangaQuick, follow these steps:
 
 1. Launch the application:
     ```bash
-    python mangaquick.py
+    streamlit mangaquick.py
     ```
 
 2. Follow the on-screen instructions to upload your manga file.
