@@ -155,18 +155,6 @@ def modify_mask(file, blocks_json, canvas_json):
 
     image_copy.save(mask_path, format='PNG')
 
-    blocks = []
-
-    # Convert canvas blocks to a list of coordinates
-    for rect in canvas_json['objects']:
-        x = (rect['left'])
-        y = (rect['top'])
-        w = (rect['width'])*(rect['scaleX'])
-        h = (rect['height'])*(rect['scaleY'])
-        blocks.append([int(x),int(y),int(w),int(h)])
-
-    return blocks
-
 def rectangles_almost_identical(blocks_json, canvas_json, i, tolerance=5):
     """
     Checks if two rectangles are almost identical within a specified tolerance.

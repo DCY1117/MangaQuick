@@ -279,7 +279,7 @@ if st.session_state['init']:
         progress_bar = st.progress(0)
 
         # Detect text blocks in each segmented text
-        for uploaded_file in uploaded_files:
+        for i, uploaded_file in enumerate(uploaded_files):
             st.session_state['blocks'].append(block_detection(
                 file=uploaded_file, 
                 dilation_iterations=dilation_iter
@@ -287,7 +287,6 @@ if st.session_state['init']:
 
             update_progress(total_files, progress_bar, i)
             torch.cuda.empty_cache()
-
 
         # Update the progress
         progress_bar.progress(100)
@@ -345,9 +344,7 @@ if Modify and st.session_state['process files']:
                         # Save modifications and decrement the file index
                         canvas_json = json.dumps(canvas_result.json_data)
                         canvas_json = json.loads(canvas_json)
-                        st.session_state['blocks'][st.session_state['current_file_index']] = modify_mask(
-                            current_file, blocks_json, canvas_json
-                        )
+                        modify_mask(current_file, blocks_json, canvas_json)
                         st.session_state['current_file_index'] -= 1
                         st.rerun()
 
@@ -358,9 +355,7 @@ if Modify and st.session_state['process files']:
                     # Save modifications and increment the file index
                     canvas_json = json.dumps(canvas_result.json_data)
                     canvas_json = json.loads(canvas_json)
-                    st.session_state['blocks'][st.session_state['current_file_index']] = modify_mask(
-                        current_file, blocks_json, canvas_json
-                    )
+                    modify_mask(current_file, blocks_json, canvas_json)
                     st.session_state['current_file_index'] += 1
                     st.rerun()
 
@@ -369,9 +364,32 @@ if Modify and st.session_state['process files']:
                     # Save modifications and finalize the modification process
                     canvas_json = json.dumps(canvas_result.json_data)
                     canvas_json = json.loads(canvas_json)
-                    st.session_state['blocks'][st.session_state['current_file_index']] = modify_mask(
-                        current_file, blocks_json, canvas_json
-                    )
+                    modify_mask(current_file, blocks_json, canvas_json)
+
+                    # Create a containers for progress updates
+                    progress_container = st.empty()
+                    progress_container.write("Text block detection in progress...")
+                    progress_bar = st.progress(0)
+
+                    # Count the total number of uploaded files
+                    total_files = len(uploaded_files)
+
+                    # Detect text blocks in each segmented text with the modified mask
+                    st.session_state['blocks'] = []
+
+                    # Detect text blocks in each segmented text
+                    for i, uploaded_file in enumerate(uploaded_files):
+                        st.session_state['blocks'].append(block_detection(
+                            file=uploaded_file, 
+                            dilation_iterations=0
+                        ))
+
+                        update_progress(total_files, progress_bar, i)
+                        torch.cuda.empty_cache()
+
+                    # Update the progress
+                    progress_bar.progress(100)
+                    progress_bar.empty() # Hide the progress bar
 
                     # Update session state
                     st.session_state['current_file_index'] = 0
