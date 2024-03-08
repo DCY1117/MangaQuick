@@ -30,7 +30,7 @@ from utils.utils import *
 ##############################################################
 st.set_page_config(
      page_title="MangaQuick",
-     page_icon='components/webpage_assets/page_icon.webp',
+     page_icon='components/webpage_assets/page_icon_no_bg.png',
      layout="wide",
 )
 

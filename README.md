@@ -1,4 +1,8 @@
-# MangaQuick: Automatic Manga Translator
+<p align="center">
+  <img src="components/webpage_assets/page_icon_no_bg.png" width="125" alt="MangaQuick: Automatic Manga Translator">
+</p>
+
+<h1 align="center" style="font-size: 36px; font-weight: bold; margin-bottom: 20px;">MangaQuick: Automatic Manga Translator</h1>
 
 ## Description
 
@@ -73,18 +77,45 @@ To start using MangaQuick, follow these steps:
 
 1. Launch the application:
     ```bash
-    streamlit mangaquick.py
+    streamlit MangaQuick.py
     ```
+    
+Upon launching, you will see the MangaQuick web interface in your browser:
 
-2. Follow the on-screen instructions to upload your manga file.
+![Streamlit page](components/webpage_assets/streamlit_page.png)
+<sup>(source: [manga109](http://www.manga109.org/en/), © Yagami Ken)</sup>
 
-3. Select the target language for the translation.
+### Main Features
 
-4. MangaQuick will process and display the translated manga upon completion.
+-  **Text segmentation**:  Select the preferred model and the processing unit, either GPU ("cuda") or CPU ("cpu"), to fit your hardware capabilities.
+-  **Text block detection**: options for mask dilation and the removal of unnecessary text blocks, particularly useful for reducing false positives.
+-  **OCR**: Select either GPU ("cuda") or CPU ("cpu").
+-  **Translation**: Enter your DeepL API key and select the desired target language to translate the manga into your preferred language.
+-  **Inpainting**: select either GPU ("cuda") or CPU ("cpu").
+-  **Text injection**:  Choose the appropriate font size and style. Note you need to match the font style with the target language for a coherent look.
 
-## License
+### DeepL
 
-MangaQuick is made available under the [MIT License](LICENSE). For more details, see the LICENSE file in the repository.
+To store your DeepL key, create a .env file and include the following line:
+```
+DEEPL_KEY=<your_deepl_key>
+```
+
+### Modifying Detection Boxes
+
+- Activate the `Modify text boxes` option to enable editing.
+- Within the user interface, adjusting detection boxes is straightforward: simply double-click on any box you wish to exclude. This feature is particularly useful for eliminating unnecessary or incorrect detections.
+- The functionality is focused solely on the removal of boxes; additional modifications to the boxes are not supported.
+
+![Streamlit modify](components/webpage_assets/streamlit_modify.png)
+<sup>(source: [manga109](http://www.manga109.org/en/), © Yagami Ken)</sup>
+
+2. All processing steps are executed simultaneously. Therefore, to adjust detection boxes or make any other changes, ensure you make these selections before initiating the process by clicking on the "Process Files" button.
+
+3. When multiple files are uploaded, they are processed collectively, not individually. This means that all images undergo each stage—starting with text segmentation, followed by text block detection, and so on—sequentially as a batch, rather than processing each image from start to finish before moving on to the next. This batch-processing approach means that you can adjust text boxes for all uploaded images simultaneously.
+ 
+4. Once the images are processed, you can download the translated manga as a zip file, ready for reading in your chosen language.
+
 
 ## Acknowledgments
 - Manga Text Segmenation: [https://github.com/juvian/Manga-Text-Segmentation](https://github.com/juvian/Manga-Text-Segmentation)
