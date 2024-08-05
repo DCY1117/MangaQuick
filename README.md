@@ -8,6 +8,51 @@
 
 MangaQuick is a Streamlit-powered web application, designed to facilitate the automatic translation of manga. This tool is part of my Final Degree Project [Diseño y desarrollo de un traductor de comics](https://oa.upm.es/71255/) (UPM, Spanish). It offers a streamlined solution for translating manga pages, with support for both single-page and batch processing. The application integrates [Manga Text Segmentation](https://github.com/juvian/Manga-Text-Segmentation) for text segmentation and detection, [LaMa](https://github.com/advimman/lama) for image inpainting and [manga-ocr](https://github.com/kha-white/manga-ocr) for optical character recognition.
 
+## Related Repositories
+If you are searching for automatic manga translator applications, the open-source community has produced other excellent tools that you might find valuable:
+
+[manga-image-translator](https://github.com/zyddnys/manga-image-translator)
+
+🔄 Versatile manga and comic translation pipeline
+
+🖌️ High-quality text detection and inpainting
+
+🔤 Support for various OCR engines and translation services
+
+💻 Both CLI and web-based interfaces for flexibility
+
+[Manga-Text-Segmentation](https://github.com/juvian/Manga-Text-Segmentation)
+
+🔬 Focused on precise text segmentation in manga images
+
+🎯 Accurately identifies and isolates text regions
+
+🖼️ Handles complex manga layouts and artistic text styles
+
+🔗 Can be integrated as a crucial step in translation pipelines
+
+[manga-ocr](https://github.com/kha-white/manga-ocr)
+
+📚 Specialized OCR tool for manga and comics
+
+🇯🇵 Highly accurate for Japanese text in manga-style fonts
+
+🧠 Based on deep learning for robust recognition
+
+🔧 Easy to integrate into other manga translation pipelines
+
+[BallonsTranslator](https://github.com/dmMaze/BallonsTranslator)
+
+🚀 Powerful, feature-rich manga translation tool
+
+🔍 Advanced text detection and segmentation
+
+🌐 Support for multiple languages and translation services
+
+🖥️ User-friendly GUI for easy editing and fine-tuning
+
+
+
 ## Installation
 
 ### Prerequisites
