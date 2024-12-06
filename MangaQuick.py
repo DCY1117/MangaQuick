@@ -8,8 +8,8 @@ import json
 # Third-party library imports
 import streamlit as st
 import torch
-from fastai.vision.all import load_learner #API Update to fastai.vision.all https://forums.fast.ai/t/fastai-v2-upgrade-review-guide-whats-new-in-fastai-version-2/86626
-from fastai.vision.all import *
+from fastai.vision import load_learner
+from fastai.vision import *
 from PIL import Image
 import deepl
 from dotenv import load_dotenv
