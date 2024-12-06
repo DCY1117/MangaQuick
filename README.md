@@ -118,6 +118,8 @@ components/image_inpainting/models/big-lama
 
 ## Usage
 
+### Running Locally
+
 To start using MangaQuick, follow these steps:
 
 1. Launch the application:
@@ -129,6 +131,16 @@ Upon launching, you will see the MangaQuick web interface in your browser:
 
 ![Streamlit page](components/webpage_assets/streamlit_page.png)
 <sup>(source: [manga109](http://www.manga109.org/en/), © Yagami Ken)</sup>
+
+### Using in Google Colab
+
+To use MangaQuick in Google Colab:
+
+1. Download the repository and place it inside your Google Drive.
+2. Open the example Colab notebook (link below) and follow the instructions in the comments.
+- **MangaQuick-Colab**:  
+  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DCY1117/MangaQuick/blob/main/MangaQuick-Colab.ipynb)
+3. If you encounter any network issues, try refreshing the webpage as indicated.
 
 ### Main Features
 
