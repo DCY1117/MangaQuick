@@ -122,7 +122,7 @@ To start using MangaQuick, follow these steps:
 
 1. Launch the application:
     ```bash
-    streamlit MangaQuick.py
+    streamlit run MangaQuick.py
     ```
     
 Upon launching, you will see the MangaQuick web interface in your browser:
