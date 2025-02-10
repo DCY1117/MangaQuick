@@ -12,11 +12,15 @@ def translate_texts(text, target_language, translator):
     """
 
     translations = []
-    for text in text:
-        result = translator.translate_text(text, target_lang=target_language) 
-        translated_text = result.text
-        # Extracts the translated text and removes any content after '('
-        translated_text = translated_text.split('(')[0]
-        translations.append(translated_text)
+    for t in text:
+        if t.strip() == "":
+            translations.append("")
+        else:
+
+            result = translator.translate_text(t, target_lang=target_language) 
+            translated_text = result.text
+            # Extracts the translated text and removes any content after '('
+            translated_text = translated_text.split('(')[0]
+            translations.append(translated_text)
         
     return translations
