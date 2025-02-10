@@ -159,7 +159,8 @@ def adjust_font_to_fit(text, block_width, block_height, font):
 
     best_size = None
     best_lines = None
-    for size in range(8, initial_size + 1):
+    min_size = 6
+    for size in range(min_size, initial_size + 1):
         test_font = ImageFont.truetype(font_path, size)
         test_font._font_path = font_path
         lines = natural_split_no_break(text, test_font, block_width)
@@ -176,7 +177,7 @@ def adjust_font_to_fit(text, block_width, block_height, font):
             break
 
     if best_size is None:
-        best_size = 8
+        best_size = min_size
         final_font = ImageFont.truetype(font_path, best_size)
         final_font._font_path = font_path
         final_lines = break_text_allowing_breaks(text, final_font, block_width)

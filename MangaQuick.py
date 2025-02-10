@@ -162,9 +162,13 @@ with st.sidebar:
                 ollama_models = [model['name'] for model in ollama_models_json]
             else:
                 print("OLLAMA IS NOT RUNNING!:", response.status_code)
-
-            ollama_model = st.selectbox('Ollama model', ollama_models, 0)
-        elif provider == "GoogleTrans":
+            if "ollama_model" not in st.session_state: 
+                st.session_state["ollama_model"] = ollama_models[0] if ollama_models else None
+            default_index = 0
+            if st.session_state["ollama_model"] in ollama_models:
+                default_index = ollama_models.index(st.session_state["ollama_model"])
+            ollama_model = st.selectbox('Ollama model', ollama_models, index=default_index, key="ollama_model")
+        elif provider == "Google":
             pass
             
         target_language = st.selectbox('Target language', languages.keys(), index=6)

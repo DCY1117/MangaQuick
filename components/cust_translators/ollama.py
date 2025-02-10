@@ -27,7 +27,8 @@ class OllamaTranslator:
                 10. Make sure that translated text is following the rules of the language you are translating to. Use speech that is in use in this time of being, avoid using unpopular worlds and archaisms or dialectisms. 
                 11. Try to keep jokes and make text funny.
                 12. Keep sounds (like "gya") transcribed.
-                13. Try to figure out if text your translating is addressing to reader or to a character."""
+                13. Try to figure out if text your translating is addressing to reader or to a character.
+                14. Do not overthink it"""
         
     def translate_text(self, text,  full_text, translations, target_lang):
         """
@@ -75,7 +76,7 @@ class OllamaTranslator:
             clean_text = matches[-1].strip() if matches else output  
             clean_text = self.normalize_wide_letters(clean_text)
 
-            print(f'\n-"{output}"')
+            print(f'\n -------\n AI RESPONSE \n {output}\n---------------\n')
             return type('TranslationResult', (object,), {'text': clean_text})()
         except requests.RequestException as e:
             print(f"Error communicating with Ollama: {e}")
