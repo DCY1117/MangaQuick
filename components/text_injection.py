@@ -3,28 +3,56 @@ import cv2
 from PIL import Image, ImageDraw, ImageFont
 
 def text_injection(file, texts, blocks, font, fontSize):
+    """
+    Injects text into an image at specified blocks using a given font style and size.
+    Parameters:
+    - file: The uploaded file (UploadedFile object) to be processed.
+    - texts: List of strings, where each string is the text to be injected into the corresponding block.
+    - blocks: List of tuples defining the blocks (x, y, width, height) or output from connected component analysis.
+    - font_name: Name of the font file to use for text rendering.
+    - font_size: Size of the font.
+    """
+    # Load the font and calculate the font size
+    font_style = ImageFont.truetype(f'text_fonts/{font}', int(fontSize))
+
+    # Extract file name without extension
     font_path = f'text_fonts/{font}'
     font_style = ImageFont.truetype(font_path, int(fontSize))
     font_style._font_path = font_path
 
     name, _ = os.path.splitext(file.name)
     mask_name = f'{name}_mask.png'
+
+    # Load the image to be edited
     image = Image.open(f'prediction/inpainting/{name}/{mask_name}')
 
+    # Determine the color for text based on background
     block_colors = get_block_colors(file, blocks)
 
+    # Create a drawable image
     image_copy = image.copy()
     image_draw = ImageDraw.Draw(image_copy)
 
+    # Inject text into the image
     inject_text(texts, blocks, font_style, image_draw, block_colors)
 
+    # Save image
     os.makedirs('prediction/translated/', exist_ok=True)
     image_copy.save(f'prediction/translated/{name}.png', format='PNG')
 
 def get_block_colors(file, blocks):
+    """
+    Determines the color for text based on the average color of the specified blocks in the image.
+    Parameters:
+    - file_path: File object representing the image file.
+    - blocks: List of tuples defining the blocks (x, y, width, height) or output from connected component analysis.
+    Returns:
+    - A list of colors (0 or 255) where each color corresponds to a block, chosen based on the block's background color to ensure text visibility.
+    """
     colors = []
     name, _ = os.path.splitext(file.name)
     image = cv2.imread(f'prediction/segmentation/{name}/{name}.png')
+    # Iterate through blocks to determine text color
     if isinstance(blocks, tuple):
         (num_labels, labels, stats, centroids) = blocks
         for i in range(1, num_labels):
@@ -42,6 +70,16 @@ def get_block_colors(file, blocks):
     return colors
 
 def inject_text(texts, blocks, font, image_draw, font_colors):
+    """
+    Injects the specified texts into the image at the specified blocks, using the provided font and colors.
+    Parameters:
+    - texts: List of strings to be injected.
+    - blocks: List of tuples (x, y, width, height) defining the blocks where texts are to be injected, or a tuple containing connected component analysis output.
+    - font: Font object to be used for text rendering.
+    - drawable_image: ImageDraw object associated with the image to draw on.
+    - font_colors: List of color values (0 or 255) for each text block.
+    """
+    
     if isinstance(blocks, tuple):
         (num_labels, labels, stats, centroids) = blocks
         for i in range(1, num_labels):
@@ -150,6 +188,15 @@ def adjust_font_to_fit(text, block_width, block_height, font):
 
 
 def place_text(text_lines, x, y, w, h, image_draw, font, color):
+    """
+    Places text lines within a specified block in an image.
+    Parameters:
+    - text_lines (list of str): Text lines to place in the block.
+    - x, y, w, h (int): Coordinates and dimensions of the block.
+    - image_draw (ImageDraw): ImageDraw object to draw on.
+    - font: Font object for text rendering.
+    - color: Text color.
+    """
     line_heights = []
     line_widths = []
     for line in text_lines:
