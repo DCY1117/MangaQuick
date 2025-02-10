@@ -18,7 +18,7 @@ def translate_texts(text, target_language, translator):
         else:
 
             try:
-                result = translator.translate_text(t, text, target_lang=target_language) 
+                result = translator.translate_text(t, text, translations, target_lang=target_language) 
             except:
                 result = translator.translate_text(t, target_lang=target_language) 
             translated_text = result.text
