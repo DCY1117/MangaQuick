@@ -114,7 +114,9 @@ unzip big-lama.zip
 ```
 
 Create a models folder inside components/image_inpainting and move the big-lama folder into it, resulting in the following path:
+```
 components/image_inpainting/models/big-lama
+```
 
 ## Usage
 
