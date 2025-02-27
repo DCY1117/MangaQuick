@@ -152,13 +152,6 @@ To use MangaQuick in Google Colab:
 
 ### Main Features
 
--  **Text segmentation**:  Select the preferred model and the processing unit, either GPU ("cuda") or CPU ("cpu"), to fit your hardware capabilities.
--  **Text block detection**: options for mask dilation and the removal of unnecessary text blocks, particularly useful for reducing false positives.
--  **OCR**: Select either GPU ("cuda") or CPU ("cpu").
--  **Translation**: Enter your DeepL API key and select the desired target language to translate the manga into your preferred language.
--  **Inpainting**: select either GPU ("cuda") or CPU ("cpu").
--  **Text injection**:  Choose the appropriate font size and style. Note you need to match the font style with the target language for a coherent look.
-
 -  **Text Segmentation**: Select the preferred model and the processing unit, either GPU (`"cuda"`) or CPU (`"cpu"`), to fit your hardware capabilities.
 -  **Text Block Detection**: Options for mask dilation and the removal of unnecessary text blocks, particularly useful for reducing false positives.
 -  **OCR (Optical Character Recognition)**: Choose between:
