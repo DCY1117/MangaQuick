@@ -2,7 +2,7 @@ import cv2
 import os
 from PIL import Image
 
-def ocr(file, text_blocks, ocr_model):
+def ocr(file, text_blocks, ocr_model, ocr_type):
     """
     Performs OCR on specified blocks of an image file using the provided OCR model.
 
@@ -24,9 +24,9 @@ def ocr(file, text_blocks, ocr_model):
     y_len, x_len, _ = image.shape
 
     # Extract text from defined blocks using OCR model
-    return block_to_text(image, text_blocks, x_len, y_len, ocr_model)
+    return block_to_text(image, text_blocks, x_len, y_len, ocr_model, ocr_type)
 
-def block_to_text(image, text_blocks, x_len, y_len, ocr_model):
+def block_to_text(image, text_blocks, x_len, y_len, ocr_model, ocr_type):
     """
     Extracts text from specified blocks of an image using OCR.
 
@@ -56,8 +56,23 @@ def block_to_text(image, text_blocks, x_len, y_len, ocr_model):
 
             # Convert cropped array to PIL image for OCR
             pil_image = Image.fromarray(cropped)
-            text = ocr_model(pil_image)
+            if ocr_type == 'manga_ocr':
+                text = ocr_model(pil_image)
+            elif ocr_type == 'easyocr':
+                result = ocr_model.readtext(cropped)
+                #print(result)
+                text = ' '.join([res[1] for res in result])
+            # elif ocr_type == 'PaddleOCR':
+            #     result = ocr_model.ocr(image, det=False)
+            #     print(result)
+            #     text = ' '.join([res[0][0] for res in result])
+
+
+
+            else:
+                text = ''
             texts.append(text)
+            print(f"'{text}'")
     else:
         for i in range(0,len(text_blocks)):
             x = text_blocks[i][0]
@@ -73,7 +88,18 @@ def block_to_text(image, text_blocks, x_len, y_len, ocr_model):
 
             # Convert cropped array to PIL image for OCR
             pil_image = Image.fromarray(cropped)
-            text = ocr_model(pil_image)
+            if ocr_type == 'manga_ocr':
+                text = ocr_model(pil_image)
+            elif ocr_type == 'easyocr':
+                result = ocr_model.readtext(cropped)
+                text = ' '.join([res[1] for res in result])
+            # elif ocr_type == 'PaddleOCR':
+            #     result = ocr_model.ocr(cropped, det=False)
+            #     print(result)
+            #     text = ' '.join([res[0][0] for res in result])
+            else:
+                text = ''
             texts.append(text)
+            print(f"'{text}'")
         
     return texts
