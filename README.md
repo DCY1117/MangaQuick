@@ -161,7 +161,8 @@ To use MangaQuick in Google Colab:
 -  **Translation**: Three translation options are now available:
    - **DeepL**: Enter your DeepL API key and select the desired target language.
    - **Google Translate**: Free alternative that does not require an API key.
-   - **Ollama**: Supports running LLMs for text translation. Follow the setup guide at [Ollama GitHub](https://github.com/ollama/ollama).
+   - **Ollama**: Supports running LLMs for text translation. Follow the setup guide at [Ollama GitHub](https://github.com/ollama/ollama) and explore the available models in the [Ollama Library](https://ollama.com/library). The translation quality **depends heavily on the prompt** used. Currently, the prompt is **fixed**, but adding an option to customize it would be beneficial (**future work**). Initial tests with **DeepSeek R1** produced poor results, highlighting the need for model-specific prompt tuning and output processing. For now, the system works **best with Phi-4**, as recommended by the author (Refer to [#10](https://github.com/your-repo/your-project/pull/10) for details). Future adjustments may be required to optimize performance for different models.
+  
 -  **Inpainting**: Select either GPU (`"cuda"`) or CPU (`"cpu"`).
 -  **Text Injection**: Choose the appropriate font size and style. The following fonts are available:
    - **Default font**
@@ -189,6 +190,8 @@ DEEPL_KEY=<your_deepl_key>
 3. When multiple files are uploaded, they are processed collectively, not individually. This means that all images undergo each stage—starting with text segmentation, followed by text block detection, and so on—sequentially as a batch, rather than processing each image from start to finish before moving on to the next. This batch-processing approach means that you can adjust text boxes for all uploaded images simultaneously.
  
 4. Once the images are processed, you can download the translated manga as a zip file, ready for reading in your chosen language.
+
+#### Others
 
 
 ## Acknowledgments
