@@ -114,7 +114,15 @@ unzip big-lama.zip
 ```
 
 Create a models folder inside components/image_inpainting and move the big-lama folder into it, resulting in the following path:
+```
 components/image_inpainting/models/big-lama
+```
+
+Make sure that the content inside big-lama is:
+```
+/models/best.ckpt
+config.yaml
+```
 
 ## Usage
 
@@ -144,12 +152,22 @@ To use MangaQuick in Google Colab:
 
 ### Main Features
 
--  **Text segmentation**:  Select the preferred model and the processing unit, either GPU ("cuda") or CPU ("cpu"), to fit your hardware capabilities.
--  **Text block detection**: options for mask dilation and the removal of unnecessary text blocks, particularly useful for reducing false positives.
--  **OCR**: Select either GPU ("cuda") or CPU ("cpu").
--  **Translation**: Enter your DeepL API key and select the desired target language to translate the manga into your preferred language.
--  **Inpainting**: select either GPU ("cuda") or CPU ("cpu").
--  **Text injection**:  Choose the appropriate font size and style. Note you need to match the font style with the target language for a coherent look.
+-  **Text Segmentation**: Select the preferred model and the processing unit, either GPU (`"cuda"`) or CPU (`"cpu"`), to fit your hardware capabilities.
+-  **Text Block Detection**: Options for mask dilation and the removal of unnecessary text blocks, particularly useful for reducing false positives.
+-  **OCR (Optical Character Recognition)**: Choose between:
+   - **Manga-ocr** (work the best)
+   - **EasyOCR** (alternative OCR, though performance may vary)
+   - Select either GPU (`"cuda"`) or CPU (`"cpu"`).
+-  **Translation**: Three translation options are now available:
+   - **DeepL**: Enter your DeepL API key and select the desired target language.
+   - **Google Translate**: Free alternative that does not require an API key.
+   - **Ollama**: Supports running LLMs for text translation. Follow the setup guide at [Ollama GitHub](https://github.com/ollama/ollama) and explore the available models in the [Ollama Library](https://ollama.com/library). The translation quality **depends heavily on the prompt** used. Currently, the prompt is **fixed**, but adding an option to customize it would be beneficial (**future work**). Initial tests with **DeepSeek R1** produced poor results, highlighting the need for model-specific prompt tuning and output processing. For now, the system works **best with Phi-4**, as recommended by the author (Refer to [#10](https://github.com/your-repo/your-project/pull/10) for details). Future adjustments may be required to optimize performance for different models.
+  
+-  **Inpainting**: Select either GPU (`"cuda"`) or CPU (`"cpu"`).
+-  **Text Injection**: Choose the appropriate font size and style. The following fonts are available:
+   - **Default font**
+   - **Anime Ace v3** (newly added, support more languages)
+   - Make sure to match the font style with the target language for a coherent look.
 
 ### DeepL
 
@@ -172,6 +190,8 @@ DEEPL_KEY=<your_deepl_key>
 3. When multiple files are uploaded, they are processed collectively, not individually. This means that all images undergo each stage—starting with text segmentation, followed by text block detection, and so on—sequentially as a batch, rather than processing each image from start to finish before moving on to the next. This batch-processing approach means that you can adjust text boxes for all uploaded images simultaneously.
  
 4. Once the images are processed, you can download the translated manga as a zip file, ready for reading in your chosen language.
+
+#### Others
 
 
 ## Acknowledgments

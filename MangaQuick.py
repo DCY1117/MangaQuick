@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 from ruamel.yaml import YAML
 from streamlit_drawable_canvas import st_canvas
 from manga_ocr import MangaOcr
+import easyocr
 
 # Custom module imports for various components of the comic translation app
 from components.text_detection.text_segmentation import text_segmentation
@@ -24,8 +25,17 @@ from components.text_recognition import ocr
 from components.text_translation import translate_texts
 from components.image_inpainting.inpainting import inpainting
 from components.text_injection import text_injection
+from components.cust_translators.ollama import OllamaTranslator
+from components.cust_translators.googletrans import GoogleTrans
 from utils.utils import *
 
+# import paddleocr
+
+
+
+
+ollama_model = None
+ocr_lang = None
 # Set Streamlit page configuration
 ##############################################################
 st.set_page_config(
@@ -129,11 +139,39 @@ with st.sidebar:
     
     # Device selection for OCR
     ocr_device = st.selectbox('OCR device', ('cuda', 'cpu'), 0)
-    
-    # Translation settings
+    ocr_type = st.selectbox('OCR', ('manga_ocr', 'easyocr'), 0)#, 'PaddleOCR' ), 0)
+
+    if ocr_type == 'easyocr':
+        ocr_lang_input = st.text_input('Enter source languages (comma separated)', 'en, ja') 
+        ocr_lang = [lang.strip() for lang in ocr_lang_input.split(',')]  
+
+    # if ocr_type == 'PaddleOCR':
+    #     ocr_lang = st.text_input('Enter source language', 'en') 
+
     with st.expander("Translation", expanded=True):
-        deepl_key = st.text_input('DeepL_key:',value=os.getenv('DEEPL_KEY'))
-        target_language=st.selectbox('target_language',languages.keys(), index=6)
+        provider = st.selectbox("Translation provider", ["GoogleTrans", "Ollama","DeepL"])
+        if provider == "DeepL":
+            deepl_key = st.text_input('DeepL API Key:', value=os.getenv('DEEPL_KEY'))
+        elif provider == "Ollama":
+
+            import requests
+
+            response = requests.get("http://localhost:11434/api/tags")
+            if response.status_code == 200:
+                ollama_models_json = response.json().get("models", [])
+                ollama_models = [model['name'] for model in ollama_models_json]
+            else:
+                print("OLLAMA IS NOT RUNNING!:", response.status_code)
+            if "ollama_model" not in st.session_state: 
+                st.session_state["ollama_model"] = ollama_models[0] if ollama_models else None
+            default_index = 0
+            if st.session_state["ollama_model"] in ollama_models:
+                default_index = ollama_models.index(st.session_state["ollama_model"])
+            ollama_model = st.selectbox('Ollama model', ollama_models, index=default_index, key="ollama_model")
+        elif provider == "Google":
+            pass
+            
+        target_language = st.selectbox('Target language', languages.keys(), index=6)
 
     # Device selection for inpainting
     inpainting_device=st.selectbox('Inpainting device',('cuda','cpu'), 0)
@@ -142,6 +180,10 @@ with st.sidebar:
     with st.expander("Text injection", expanded=False):
         fontSize = st.number_input('Font_size',value=15,step=1)
         font_style=st.selectbox('Font',fonts.keys())
+
+    with st.sidebar:
+        debug_text = st.checkbox("DEBUG_TEXT", False)
+        debug_mask = st.checkbox("DEBUG_MASK", False)
 
 # Load cached data
 ##############################################################
@@ -188,7 +230,7 @@ def load_segmentation_model(segmentation_device, model_name):
 text_segmentation_model = load_segmentation_model(segmentation_device, model_name)
 
 @st.cache_resource
-def load_ocr(ocr_device):
+def load_ocr(ocr_device, ocr_type, ocr_lang):
     """
     Initializes and returns the OCR model, optionally forcing CPU usage.
 
@@ -199,14 +241,24 @@ def load_ocr(ocr_device):
     - An instance of the MangaOcr model.
     """
     if ocr_device == "cuda":
-        mocr = MangaOcr(force_cpu=False)
+        if ocr_type == "manga_ocr":
+            mocr = MangaOcr(force_cpu=False)
+        elif ocr_type == "easyocr":
+            mocr = easyocr.Reader(ocr_lang, gpu=True)
+        # elif ocr_type == "PaddleOCR":
+        #     mocr = paddleocr.PaddleOCR(lang=ocr_lang)
     else:
-        mocr = MangaOcr(force_cpu=True)
+        if ocr_type == "manga_ocr":
+            mocr = MangaOcr(force_cpu=True)
+        elif ocr_type == "easyocr":
+            mocr = easyocr.Reader(ocr_lang, gpu=False)
+        # elif ocr_type == "PaddleOCR":
+        #     mocr = paddleocr.PaddleOCR(lang=ocr_lang)
 
     return mocr
 
 # Load the OCR model using the selected device
-ocr_model = load_ocr(ocr_device)
+ocr_model = load_ocr(ocr_device, ocr_type, ocr_lang)
 
 @st.cache_resource
 def set_inpainting_device(inpainting_device):
@@ -417,7 +469,8 @@ if st.session_state['modify']:
         st.session_state['texts'].append(ocr(
             uploaded_file,
             st.session_state['blocks'][i],  # Use the corresponding block for the current file
-            ocr_model
+            ocr_model,
+            ocr_type
         ))
         # Calculate the percentage completion
         percent_complete = int(100 * (i + 1) / len(uploaded_files))
@@ -434,15 +487,25 @@ if st.session_state['modify']:
     progress_bar = st.progress(0)
 
     # Initialize the translator with DeepL API key
-    translator = deepl.Translator(deepl_key)
+    if provider == "DeepL":
+        translator = deepl.Translator(deepl_key)
+    elif provider == "Ollama":
+        translator = OllamaTranslator(model=ollama_model)
+    elif provider == "GoogleTrans":
+        translator = GoogleTrans()
+    
 
     # Translate the recognized texts for each uploaded file
     for i, uploaded_file in enumerate(uploaded_files):
-        st.session_state['text_translated'].append(translate_texts(
-            text=st.session_state['texts'][i],
+        original_text = st.session_state['texts'][i]
+
+        translated = translate_texts(
+            text=original_text,
             target_language=languages[target_language],
-            translator=translator
-        ))
+            translator=translator,
+        )
+
+        st.session_state['text_translated'].append(translated)
 
         update_progress(total_files, progress_bar, i)
 
@@ -452,7 +515,8 @@ if st.session_state['modify']:
     progress_container.write("Image inpainting in progress...")
 
     # Display the usage of the DeepL API
-    st.write(translator.get_usage())
+    if provider == "DeepL":
+        st.write(translator.get_usage())
 
     # Perform image inpainting on the detected text blocks
     inpainting()
@@ -493,7 +557,25 @@ if st.session_state['modify']:
 
 # Download button after the process is completed
 if st.session_state['download']:
-    # Retrieve the current working directory
+
+    if debug_text:
+        st.markdown("## DEBUG")
+        import pandas as pd
+        debug_data = {
+            "DETECTED TEXT": st.session_state.get("texts", []),
+            "TRANSLATED TEXT": st.session_state.get("text_translated", [])
+        }
+        df = pd.DataFrame(debug_data)
+        st.dataframe(df)
+
+    if debug_mask:
+        st.markdown("### MASK")
+        for uploaded_file in uploaded_files:
+            file_name = uploaded_file.name
+            name, _ = os.path.splitext(file_name)
+            mask_path = f'prediction/segmentation/{name}/{name}_mask.png'
+            st.image(mask_path, caption=f"Маска для {file_name}")
+
     current_directory = os.getcwd()
 
     # Create a zip archive of the translated files
@@ -504,9 +586,10 @@ if st.session_state['download']:
         st.download_button("Download as zip", f, file_name='translated.zip')
     
     # Clean up workspace
-    shutil.rmtree(f'{current_directory}/prediction')
-    os.remove('translated.zip')
-    shutil.rmtree(f'{current_directory}/outputs')
+    if debug_mask:
+        shutil.rmtree(f'{current_directory}/prediction')
+        os.remove('translated.zip')
+        shutil.rmtree(f'{current_directory}/outputs')
 
     # Reset various lists and flags in the session state to their initial values
     st.session_state['blocks'] = []

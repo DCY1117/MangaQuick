@@ -22,3 +22,6 @@ pyperclip==1.8.2
 transformers>=4.25.0
 unidic_lite==1.0.8
 ruamel.yaml==0.18.6
+easyocr
+cutlet
+googletrans
