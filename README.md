@@ -118,6 +118,12 @@ Create a models folder inside components/image_inpainting and move the big-lama 
 components/image_inpainting/models/big-lama
 ```
 
+Make sure that the content inside big-lama is:
+```
+/models/best.ckpt
+config.yaml
+```
+
 ## Usage
 
 ### Running Locally
@@ -152,6 +158,22 @@ To use MangaQuick in Google Colab:
 -  **Translation**: Enter your DeepL API key and select the desired target language to translate the manga into your preferred language.
 -  **Inpainting**: select either GPU ("cuda") or CPU ("cpu").
 -  **Text injection**:  Choose the appropriate font size and style. Note you need to match the font style with the target language for a coherent look.
+
+-  **Text Segmentation**: Select the preferred model and the processing unit, either GPU (`"cuda"`) or CPU (`"cpu"`), to fit your hardware capabilities.
+-  **Text Block Detection**: Options for mask dilation and the removal of unnecessary text blocks, particularly useful for reducing false positives.
+-  **OCR (Optical Character Recognition)**: Choose between:
+   - **Manga-ocr** (work the best)
+   - **EasyOCR** (alternative OCR, though performance may vary)
+   - Select either GPU (`"cuda"`) or CPU (`"cpu"`).
+-  **Translation**: Three translation options are now available:
+   - **DeepL**: Enter your DeepL API key and select the desired target language.
+   - **Google Translate**: Free alternative that does not require an API key.
+   - **Ollama**: Supports running LLMs for text translation. Follow the setup guide at [Ollama GitHub](https://github.com/ollama/ollama).
+-  **Inpainting**: Select either GPU (`"cuda"`) or CPU (`"cpu"`).
+-  **Text Injection**: Choose the appropriate font size and style. The following fonts are available:
+   - **Default font**
+   - **Anime Ace v3** (newly added, support more languages)
+   - Make sure to match the font style with the target language for a coherent look.
 
 ### DeepL
 
