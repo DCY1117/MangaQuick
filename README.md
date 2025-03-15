@@ -85,7 +85,7 @@ conda activate MangaQuick
     ```bash
     pip install -r requirements.txt
     ```
-### GPU Support
+### Pytorch and GPU Support
 To utilize GPU, ensure you install the correct version of PyTorch that matches your system and CUDA setup.
 You can find the appropriate installation commands on:
 
@@ -94,6 +94,13 @@ You can find the appropriate installation commands on:
 This application has been tested on an RTX 3080 GPU, which has 10GB of VRAM. It's important to note that the application nearly utilizes the full capacity of the 10GB VRAM. Therefore, to ensure smooth operation, a GPU with at least 10GB of VRAM is recommended.
 
 The application supports CPU usage as well, with options to select either CPU or GPU for each different model within the web interface. The Text Segmentation model is the most resource-intensive component.
+
+⚠ **PyTorch 2.6.0 Compatibility Issue**
+
+The latest PyTorch 2.6.0 introduces a change in torch.load(), where the default value of weights_only is now set to True. This causes compatibility issues with the Text Segmentation model. For more details, refer to issue #8.
+
+To resolve this, you must downgrade or install an older version of PyTorch, such as 2.5.0. Follow the official instructions at:
+https://pytorch.org/get-started/previous-versions/
 
 ### Text segmentation model
 
