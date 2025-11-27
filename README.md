@@ -73,7 +73,7 @@ conda activate MangaQuick
 
 1. Clone the MangaQuick repository:
     ```bash
-    git clone https://github.com/yourusername/MangaQuick.git
+    git clone https://github.com/DCY1117/MangaQuick.git
     ```
 
 2. Navigate to the MangaQuick directory:
